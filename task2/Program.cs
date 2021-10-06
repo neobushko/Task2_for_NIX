@@ -52,16 +52,106 @@ namespace task2
 
                 Room room = roomRepository.Seek(number);
                 if(room.Id != -1)
-                    Console.WriteLine($"Searched room for id - {room.Id}:\n\tNumber: {room.RoomNumber}" +
+                    Console.WriteLine($"Searched room for id - {number}:\n\tNumber: {room.RoomNumber}" +
                         $"\tCategory: {room.Category}\tPrice for one night: {room.Price}");
-                else Console.WriteLine($"Searched room for id - {room.Id} wasn't found");
+                else Console.WriteLine($"Searched room for id - {number} wasn't found");
+            }
+
+            void DeleteRoom(RoomRepository roomRepository)
+            {
+                ShowAllRooms(roomRepository);
+                Console.WriteLine("Enter id of the room ur want to delete:");
+                Int32.TryParse(Console.ReadLine(), out int number);
+                bool _isDeleted = roomRepository.Delete(number);
+                if (_isDeleted)
+                {
+                    Console.WriteLine($"Room №{number} was successfully deleted ");
+                }
+                else Console.WriteLine("An error has occurred ");
+            }
+            //////////////////////////////////////////////////////////
+            void ShowAllClients(ClientRepository clientRepository)
+            {
+                List<Client> _buff = new List<Client>();
+                _buff.AddRange(clientRepository.GetAll());
+
+                Console.WriteLine("-------------------------All Clients-----------------------");
+                foreach (var client in _buff)
+                {
+                    Console.WriteLine($"ID: {client.Id}\tName: {client.Name}\tBirthday: {client.Birthday} \tPassport: {client.Passport}");
+                }
+                Console.WriteLine("---------------------------------------------------------");
+
+            }
+
+            void FindClient(ClientRepository clientRepository)
+            {
+                ShowAllClients(clientRepository);
+                Console.WriteLine("Enter id of the client:");
+                Int32.TryParse(Console.ReadLine(), out int number);
+
+                Client client = clientRepository.Seek(number);
+                if (client.Id != -1)
+                    Console.WriteLine($"Searched client for ID: { client.Id}\tName: {client.Name}\tBirthday: { client.Birthday} \tPassport: { client.Passport}");
+                else Console.WriteLine($"Searched client for id - {client.Id} wasn't found");
+            }
+
+            void DeleteClient(ClientRepository clientRepository)
+            {
+                ShowAllClients(clientRepository);
+                Console.WriteLine("Enter id of the client ur want to delete:");
+                Int32.TryParse(Console.ReadLine(), out int number);
+                bool _isDeleted = clientRepository.Delete(number);
+                if (_isDeleted)
+                {
+                    Console.WriteLine($"Client №{number} was successfully deleted ");
+                }
+                else Console.WriteLine("An error has occurred ");
             }
 
 
-
-
+            //main
             //ShowAllRooms(roomRepository);
             FindRoom(roomRepository);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             /*            roomRepository.Add(testRoom);

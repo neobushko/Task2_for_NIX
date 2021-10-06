@@ -44,10 +44,25 @@ namespace task2.Repository
         }
         public void Add(Room elem)
         {
-            using (var sw = new StreamWriter(_Address, true))
+            bool isExisting = false;
+            string[] buff;
+            using (var f = File.Open(_Address, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read))
             {
-                sw.WriteLine($"{elem.Id}{sep}{elem.RoomNumber}{sep}{elem.Category}{sep}{elem.Price}");
+                using (var sr = new StreamReader(f))
+                {
+                    while (sr.Peek() > -1)
+                    {
+                        buff = sr.ReadLine().Split(sep);
+                        if (Convert.ToInt32(buff[0]) == elem.Id)
+                            isExisting = true;
+                    }
+                }
             }
+            if (!isExisting)
+                using (var sw = new StreamWriter(_Address, true))
+                {
+                    sw.WriteLine($"{elem.Id}{sep}{elem.RoomNumber}{sep}{elem.Category}{sep}{elem.Price}");
+                }
 
         }
         // If there could be several rooms with the same number, you need to create a List of rooms in which the rooms will be entered in the cycle, and the return should be taken out for the cycle and left alone.
