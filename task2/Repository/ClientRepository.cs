@@ -9,7 +9,7 @@ using System.IO;
 
 namespace task2.Repository
 {
-    class ClientRepository : DoWithFile<Client>
+    class ClientRepository : IDoWithFile<Client>
     {
         private char sep = '|';
         private string Address;

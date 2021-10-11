@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace task2.Interfaces
 {
-    interface DoWithFile<T>
+    interface IDoWithFile<T>
     {
         public List<T> GetAll();
         public void Add(T elem);

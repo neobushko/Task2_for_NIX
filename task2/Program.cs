@@ -109,11 +109,90 @@ namespace task2
                 else Console.WriteLine("An error has occurred ");
             }
 
+            void ShowAllBookings(BookingRepository bookingRepository)
+            {
+                List<Booking> _buff = new List<Booking>();
+                _buff.AddRange(bookingRepository.GetAll());
+                Console.WriteLine("-------------------------All Bookings-----------------------");
+                foreach (var booking in _buff)
+                {
+                    Console.WriteLine($"ID: {booking.Id}\tClientID: {booking.ClientId}\tRoomID: {booking.RoomId} \tCheckIn: {booking.CheckIn} \tCheckOut: {booking.CheckOut} \tBookingDate: {booking.BookingDate}");
+                }
+                Console.WriteLine("---------------------------------------------------------");
+            }
+            
+            void FindBooking(BookingRepository bookingRepository)
+            {
+                
+                ShowAllBookings(bookingRepository);
+                Console.WriteLine("Enter id of the booking:");
+                Int32.TryParse(Console.ReadLine(), out int number);
+
+                Booking booking = bookingRepository.Seek(number);
+                if (booking.Id != -1)
+                    Console.WriteLine($"Searched booking for ID: {number}\tClientID: {booking.ClientId}\tRoomID: {booking.RoomId} \tCheckIn: {booking.CheckIn} \tCheckOut{booking.CheckOut} \tBookingDate{booking.BookingDate}");
+                else Console.WriteLine($"Searched booking for id - {number} wasn't found");
+            }
+            void DeleteBooking(BookingRepository bookingRepository)
+            {
+                ShowAllBookings(bookingRepository);
+                Console.WriteLine("Enter id of the booking u want to delete:");
+                Int32.TryParse(Console.ReadLine(), out int number);
+                bool _isDeleted = bookingRepository.Delete(number);
+                if (_isDeleted)
+                {
+                    Console.WriteLine($"Client №{number} was successfully deleted ");
+                }
+                else Console.WriteLine("An error has occurred ");
+            }
+
+            void FindRoomForDate()
+            {
+                Console.WriteLine("Do you want to stay for a day or for a period?\n1 - For a day\n2 - For a period");
+                Int32.TryParse(Console.ReadLine(),out int n);
+                if (n != 1 && n != 2)
+                    Console.WriteLine("Wrong Number!");
+                else if (n == 2)
+                    FindRoomForPeriod();
+                else FindRoomForDay();
+            }
+           
+            void FindRoomForDay()
+            {
+                Console.WriteLine("Enter check in date\nin format dd/mm/yyyy");
+                DateTime.TryParse(Console.ReadLine(), out DateTime CheckIn);
+
+                List<Room> rooms = bookingRepository.FindRoomForDate(CheckIn, roomRepository);
+                Console.WriteLine($"Here is list of free rooms for {CheckIn}:");
+                foreach (var room in rooms)
+                {
+                    Console.Write($"{room.Id}|\t{room.RoomNumber}|\t{room.Category}|\t{room.Price}");
+                }
+                Console.WriteLine("\n");
+            }
+
+            void FindRoomForPeriod()
+            {
+                Console.WriteLine("Enter check in date\nin format dd/mm/yyyy");
+                DateTime.TryParse(Console.ReadLine(), out DateTime CheckIn);
+
+                Console.WriteLine("Enter check out date\nin format dd/mm/yyyy");
+                DateTime.TryParse(Console.ReadLine(), out DateTime CheckOut);
+
+                List<Room> rooms = bookingRepository.FindRoomForDate(CheckIn, CheckOut, roomRepository);
+                Console.WriteLine($"Here is list of free rooms for {CheckIn} to {CheckOut}:");
+                foreach (var room in rooms)
+                {
+                    Console.Write($"id: {room.Id}|\troom number: {room.RoomNumber}|\tcategory: {room.Category}|\tprice: {room.Price}");
+                }
+                Console.WriteLine("\n");
+            }
+            /////////////////////////////////////////////////////////
 
             //main
             //ShowAllRooms(roomRepository);
-            FindRoom(roomRepository);
-
+            //FindRoom(roomRepository);
+            FindRoomForDate();
 
 
 

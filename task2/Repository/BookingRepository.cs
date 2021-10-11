@@ -7,7 +7,7 @@ using task2.Interfaces;
 
 namespace task2.Repository
 {
-    class BookingRepository : DoWithFile<Booking>
+    class BookingRepository : IDoWithFile<Booking>
     {
         private char sep = '|';
         private string Address;

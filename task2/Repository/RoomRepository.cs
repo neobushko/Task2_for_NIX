@@ -9,7 +9,7 @@ using task2.Interfaces;
 
 namespace task2.Repository
 {
-    class RoomRepository : DoWithFile<Room>
+    class RoomRepository : IDoWithFile<Room>
     {
         private char sep = '|';
         private string _Address;
